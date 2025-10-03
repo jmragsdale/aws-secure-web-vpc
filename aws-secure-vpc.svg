@@ -1,0 +1,159 @@
+<svg viewBox="0 0 1200 950" width="1200" height="950" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .box { fill: #fff; stroke: #000; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 12px; fill: #000; }
+      .title-text { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #000; }
+      .header { font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #000; }
+      .line { stroke: #000; stroke-width: 2; fill: none; }
+      .arrow { fill: #000; }
+    </style>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" class="arrow" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="30" text-anchor="middle" class="header">AWS Secure Web VPC Architecture</text>
+  <text x="600" y="55" text-anchor="middle" style="font-size: 14px; fill: #666;">Multi-AZ Design with Defense-in-Depth Security</text>
+  
+  <!-- Internet -->
+  <rect x="520" y="90" width="160" height="60" class="box" rx="5"/>
+  <text x="600" y="115" text-anchor="middle" class="title-text">Internet</text>
+  <text x="600" y="135" text-anchor="middle" style="font-size: 10px;">0.0.0.0/0</text>
+  
+  <!-- Connection to WAF -->
+  <line x1="600" y1="150" x2="600" y2="180" class="line" marker-end="url(#arrowhead)"/>
+  
+  <!-- AWS WAF -->
+  <rect x="480" y="180" width="240" height="70" class="box" rx="5"/>
+  <text x="600" y="205" text-anchor="middle" class="title-text">AWS WAF</text>
+  <text x="600" y="225" text-anchor="middle" style="font-size: 10px;">• Rate limiting (2000 req/5min)</text>
+  <text x="600" y="240" text-anchor="middle" style="font-size: 10px;">• SQL injection protection</text>
+  
+  <!-- Connection to VPC -->
+  <line x1="600" y1="250" x2="600" y2="290" class="line" marker-end="url(#arrowhead)"/>
+  
+  <!-- AWS VPC Container -->
+  <rect x="100" y="290" width="1000" height="600" class="box" rx="5"/>
+  <text x="150" y="320" class="title-text">AWS VPC (10.0.0.0/16)</text>
+  
+  <!-- Availability Zone A -->
+  <rect x="130" y="350" width="440" height="500" class="box" rx="5" stroke-dasharray="5,5"/>
+  <text x="350" y="380" text-anchor="middle" class="title-text">Availability Zone A</text>
+  
+  <!-- Public Subnet AZ-A -->
+  <rect x="160" y="400" width="380" height="100" class="box" rx="5"/>
+  <text x="350" y="425" text-anchor="middle" class="title-text">Public Subnet AZ-A</text>
+  <text x="350" y="445" text-anchor="middle" style="font-size: 10px;">10.0.1.0/24</text>
+  
+  <rect x="230" y="460" width="240" height="30" class="box" rx="3"/>
+  <text x="350" y="480" text-anchor="middle" style="font-size: 11px;">Application Load Balancer (ALB)</text>
+  
+  <!-- NACL for Public -->
+  <text x="170" y="485" class="text" style="font-size: 9px;">NACL: Allow 443</text>
+  <text x="170" y="497" class="text" style="font-size: 9px;">from Internet</text>
+  
+  <!-- Private Subnet AZ-A -->
+  <rect x="160" y="520" width="380" height="100" class="box" rx="5"/>
+  <text x="350" y="545" text-anchor="middle" class="title-text">Private Subnet AZ-A</text>
+  <text x="350" y="565" text-anchor="middle" style="font-size: 10px;">10.0.2.0/24</text>
+  
+  <rect x="230" y="580" width="240" height="30" class="box" rx="3"/>
+  <text x="350" y="600" text-anchor="middle" style="font-size: 11px;">Web Server (EC2)</text>
+  
+  <!-- Security Group for Web -->
+  <text x="170" y="605" class="text" style="font-size: 9px;">SG: Allow 80</text>
+  <text x="170" y="617" class="text" style="font-size: 9px;">from ALB only</text>
+  
+  <!-- Data Subnet AZ-A -->
+  <rect x="160" y="640" width="380" height="100" class="box" rx="5"/>
+  <text x="350" y="665" text-anchor="middle" class="title-text">Data Subnet AZ-A</text>
+  <text x="350" y="685" text-anchor="middle" style="font-size: 10px;">10.0.3.0/24</text>
+  
+  <rect x="230" y="700" width="240" height="30" class="box" rx="3"/>
+  <text x="350" y="720" text-anchor="middle" style="font-size: 11px;">RDS Database (Primary)</text>
+  
+  <!-- Security Group for DB -->
+  <text x="170" y="725" class="text" style="font-size: 9px;">SG: Allow 3306</text>
+  <text x="170" y="737" class="text" style="font-size: 9px;">from Web only</text>
+  
+  <!-- NAT Gateway in AZ-A -->
+  <rect x="160" y="760" width="380" height="40" class="box" rx="3"/>
+  <text x="350" y="785" text-anchor="middle" style="font-size: 11px;">NAT Gateway (Outbound only)</text>
+  
+  <!-- Traffic flow in AZ-A -->
+  <line x1="350" y1="490" x2="350" y2="520" class="line" marker-end="url(#arrowhead)"/>
+  <line x1="350" y1="610" x2="350" y2="640" class="line" marker-end="url(#arrowhead)"/>
+  
+  <!-- Availability Zone B -->
+  <rect x="600" y="350" width="440" height="500" class="box" rx="5" stroke-dasharray="5,5"/>
+  <text x="820" y="380" text-anchor="middle" class="title-text">Availability Zone B</text>
+  
+  <!-- Public Subnet AZ-B -->
+  <rect x="630" y="400" width="380" height="100" class="box" rx="5"/>
+  <text x="820" y="425" text-anchor="middle" class="title-text">Public Subnet AZ-B</text>
+  <text x="820" y="445" text-anchor="middle" style="font-size: 10px;">10.0.4.0/24</text>
+  
+  <rect x="700" y="460" width="240" height="30" class="box" rx="3"/>
+  <text x="820" y="480" text-anchor="middle" style="font-size: 11px;">Application Load Balancer (ALB)</text>
+  
+  <!-- NACL for Public -->
+  <text x="640" y="485" class="text" style="font-size: 9px;">NACL: Allow 443</text>
+  <text x="640" y="497" class="text" style="font-size: 9px;">from Internet</text>
+  
+  <!-- Private Subnet AZ-B -->
+  <rect x="630" y="520" width="380" height="100" class="box" rx="5"/>
+  <text x="820" y="545" text-anchor="middle" class="title-text">Private Subnet AZ-B</text>
+  <text x="820" y="565" text-anchor="middle" style="font-size: 10px;">10.0.5.0/24</text>
+  
+  <rect x="700" y="580" width="240" height="30" class="box" rx="3"/>
+  <text x="820" y="600" text-anchor="middle" style="font-size: 11px;">Web Server (EC2)</text>
+  
+  <!-- Security Group for Web -->
+  <text x="640" y="605" class="text" style="font-size: 9px;">SG: Allow 80</text>
+  <text x="640" y="617" class="text" style="font-size: 9px;">from ALB only</text>
+  
+  <!-- Data Subnet AZ-B -->
+  <rect x="630" y="640" width="380" height="100" class="box" rx="5"/>
+  <text x="820" y="665" text-anchor="middle" class="title-text">Data Subnet AZ-B</text>
+  <text x="820" y="685" text-anchor="middle" style="font-size: 10px;">10.0.6.0/24</text>
+  
+  <rect x="700" y="700" width="240" height="30" class="box" rx="3"/>
+  <text x="820" y="720" text-anchor="middle" style="font-size: 11px;">RDS Database (Standby)</text>
+  
+  <!-- Security Group for DB -->
+  <text x="640" y="725" class="text" style="font-size: 9px;">SG: Allow 3306</text>
+  <text x="640" y="737" class="text" style="font-size: 9px;">from Web only</text>
+  
+  <!-- NAT Gateway in AZ-B -->
+  <rect x="630" y="760" width="380" height="40" class="box" rx="3"/>
+  <text x="820" y="785" text-anchor="middle" style="font-size: 11px;">NAT Gateway (Outbound only)</text>
+  
+  <!-- Traffic flow in AZ-B -->
+  <line x1="820" y1="490" x2="820" y2="520" class="line" marker-end="url(#arrowhead)"/>
+  <line x1="820" y1="610" x2="820" y2="640" class="line" marker-end="url(#arrowhead)"/>
+  
+  <!-- Internet Gateway connection -->
+  <line x1="600" y1="300" x2="350" y2="400" class="line" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="300" x2="820" y2="400" class="line" marker-end="url(#arrowhead)"/>
+  <text x="430" y="340" class="text" style="font-size: 10px;">Internet Gateway</text>
+  <text x="710" y="340" class="text" style="font-size: 10px;">Internet Gateway</text>
+  
+  <!-- VPC Flow Logs -->
+  <rect x="130" y="860" width="200" height="50" class="box" rx="3"/>
+  <text x="230" y="880" text-anchor="middle" style="font-size: 11px;">VPC Flow Logs</text>
+  <text x="230" y="895" text-anchor="middle" style="font-size: 9px;">CloudWatch monitoring</text>
+  
+  <!-- Defense Layers Info -->
+  <rect x="830" y="860" width="270" height="110" class="box" rx="5"/>
+  <text x="965" y="885" text-anchor="middle" class="title-text">Defense-in-Depth Layers</text>
+  
+  <text x="850" y="905" class="text" style="font-size: 10px;">1. AWS WAF - Application layer</text>
+  <text x="850" y="925" class="text" style="font-size: 10px;">2. NACLs - Stateless filtering</text>
+  <text x="850" y="945" class="text" style="font-size: 10px;">3. Security Groups - Stateful firewall</text>
+  <text x="850" y="965" class="text" style="font-size: 10px;">4. Multi-AZ - High availability</text>
+</svg>
